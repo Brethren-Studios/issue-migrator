@@ -4,39 +4,58 @@ Migrate GitHub issue data to import-ready BitBucket issue data, following the fo
 
 # Usage
 
+```
+usage: migrateissuedata.py [-h] -o ORG -r REPO [-u USERNAME] [-p PASSWORD]
+
+Migrate GitHub issue data to import-ready BitBucket issue data.
+
+optional arguments:
+  -h, --help   show this help message and exit
+  -o ORG       Name of the organization that owns the GitHub repo
+  -r REPO      Name of the GitHub repo
+  -u USERNAME  Username to authneticate requests
+  -p PASSWORD  Password to authneticate requests
+```
+
+## Examples
+
 Convert issues from this GitHub repository to BitBucket issue data, printed to stdout on the command line:
 
 ```bash
-./migrateissuedata.py -o brethren-studios -r issue-migrator
+python3 migrateissuedata.py -o brethren-studios -r issue-migrator
 ```
 
 Convert issues from this GitHub repository to BitBucket issue data, printed to stdout on the command line, with authenticated requests:
 
 ```bash
-./migrateissuedata.py -o brethren-studios -r issue-migrator -u evanw555 -p "MYPASSWORD;)"
+python3 migrateissuedata.py -o brethren-studios -r issue-migrator -u evanw555 -p "MYPASSWORD;)"
 ```
 
 Convert issues from this GitHub repository to BitBucket issue data, saved to a file:
 
 ```bash
-./migrateissuedata.py -o brethren-studios -r issue-migrator > bitbucket_friendly_issue_data.json
+python3 migrateissuedata.py -o brethren-studios -r issue-migrator > bitbucket_friendly_issue_data.json
 ```
 
 Get more help:
 
 ```bash
-./migrateissuedata.py -h
+python3 migrateissuedata.py -h
 ```
 
 # Details
 
 This script works by making requests to the GitHub issue API for the specified repository, processing the fetched data, then outputting the resulting BitBucket issue data to the command line in JSON format.
 
+## Rate Limiting
+
 Currently, [GitHub's API limits requests](https://developer.github.com/v3/rate_limit/) to `60` per hour for any IP address. Fortunately if you are authneticated, this limit is raised to `5000` requests per hour.
+
+## Compatibility
 
 This script is currently only compatible with Python 3.
 
-If you're having trouble running the script as is shown up above, try running in Python 3 explicitly with `python3 migrateissuedata.py [params...]`, or add executions privileges to your copy of the script with `sudo chmod +x migrateissuedata.py`
+The examples shown up above explicitly run the script in Python 3 with `python3`, but your system might not have this alias. You can try running it with just `python` if your system default is Python 3. You can also run the script as an executable with `./migrateissuedata.py`, but you should make sure your copy of the file has the appropriate execution privileges with `sudo chmod +x migrateissuedata.py`
 
 # Issues
 
